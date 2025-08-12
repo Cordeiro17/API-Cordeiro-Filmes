@@ -1,0 +1,19 @@
+{
+    "name": "elipse/api-cordeiro",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+             "Controller\\": "Controller/",
+        "Model\\": "Model/",
+            "Elipse\\ApiCordeiro\\": "API-Cordeiro-filmes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Cordeiro17",
+            "email": "gui99295@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
