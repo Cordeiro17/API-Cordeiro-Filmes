@@ -26,6 +26,14 @@ class Movie {
         return $stmt->fetchALL(PDO::FETCH_ASSOC);
     }
 
+    public function read_single() {
+    $query = "SELECT * FROM " . $this->table . " WHERE id = ? LIMIT 0,1";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->id);
+    $stmt->execute();
+    return $stmt;
+}
+
     public function createMovie() {
         $query = "INSERT INTO movies (title, director, year, genre) VALUES (:title, :director, :year, :genre)";
         $stmt = $this->conn->prepare($query);
