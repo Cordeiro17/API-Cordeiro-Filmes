@@ -23,36 +23,41 @@ class Movie {
         $query = "SELECT * FROM movies";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        return $stmt;
-    }
-
-    public function read_single() {
-        $query = "SELECT * FROM movies WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-        return $stmt;
+        return $stmt->fetchALL(PDO::FETCH_ASSOC);
     }
 
     public function createMovie() {
-        $query = "INSERT INTO title, director, year, genre) VALUES (:title, :director, :year, :genre)";
+        $query = "INSERT INTO movies (title, director, year, genre) VALUES (:title, :director, :year, :genre)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':title', $this->title);
-        $stmt->bindParam(':director', $this->director);
-        $stmt->bindParam(':year', $this->year);
-        $stmt->bindParam(':genre', $this->genre);
-        return $stmt->execute();
-    }
+        $stmt->bindParam(':title', $this->title, PDO::PARAM_STR);
+        $stmt->bindParam(':director', $this->director, PDO::PARAM_STR);
+        $stmt->bindParam(':year', $this->year, PDO::PARAM_STR);
+        $stmt->bindParam(':genre', $this->genre, PDO::PARAM_STR);
+         if ($stmt->execute()) {
+            return true;
+        }
 
+        return false;
+    
+}
+        
     public function updateMovie() {
         $query = "UPDATE movies SET title = :title, director = :director, year = :year, genre = :genre WHERE id = :id";
+
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':title', $this->title);
-        $stmt->bindParam(':director', $this->director);
-        $stmt->bindParam(':year', $this->year);
-        $stmt->bindParam(':genre', $this->genre);
-        $stmt->bindParam(':id', $this->id);
-        return $stmt->execute();
+
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_STR);
+        $stmt->bindParam(':title', $this->title, PDO::PARAM_STR);
+        $stmt->bindParam(':director', $this->director, PDO::PARAM_STR);
+        $stmt->bindParam(':year', $this->year, PDO::PARAM_STR);
+        $stmt->bindParam(':genre', $this->genre, PDO::PARAM_STR);
+        
+        if ($stmt->execute()){
+            return true;
+        }
+
+        return false;
+
     }
 
     public function deleteMovie() {

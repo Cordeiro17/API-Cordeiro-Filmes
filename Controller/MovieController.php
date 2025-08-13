@@ -7,26 +7,24 @@ require_once __DIR__ . '/../Config/configuration.php';
 
 class MovieController
 {
-    // Função para pegar todos os usuários
     public function getMovies()
     {
         $movie = new Movie();
         $movies = $movie->getMovies();
 
         if ($movies) {
-            // Envia a resposta JSON
             header('Content-Type: application/json', true, 200);
             echo json_encode($movies);
         } else {
             header('Content-Type: application/json', true, 404);
-            echo json_encode(["message" => "Usuarios nao encontrados"]);
+            echo json_encode(["message" => "Filmes nao encontrados"]);
         }
     }
 
-    // Função para criar um usuário
+    
     public function createMovie()
     {
-        // Obtém os dados da requisição
+        
         $data = json_decode(file_get_contents("php://input"));
 
         if (isset($data->title) && isset($data->director) && isset($data->year) && isset($data->genre)) {
@@ -38,10 +36,12 @@ class MovieController
            
             if ($movie->createMovie()) {
                 header('Content-Type: application/json', true, 201);
-                echo json_encode(["message" => "Usuário criado com sucesso"]);
+                echo json_encode(["message" => "Filme criado com sucesso"]);
+
+                var_dump($movie->title, $movie->director, $movie->year, $movie->genre);
             } else {
                 header('Content-Type: application/json', true, 500);
-                echo json_encode(["message" => "Falha ao criar usuário"]);
+                echo json_encode(["message" => "Falha ao criar o Filme"]);
             }
         } else {
             header('Content-Type: application/json', true, 400);
@@ -49,13 +49,11 @@ class MovieController
         }
     }
 
-    // Função para editar um usuário
     public function updateMovie()
     {
-        // Obtém os dados da requisição
         $data = json_decode(file_get_contents("php://input"));
 
-        if (isset($data->id) && isset($data->name) && isset($data->email)) {
+        if (isset($data->id) && isset($data->title) && isset($data->director)&& isset($data->year)&& isset($data->genre)) {
             $movie = new Movie();
             $movie->id = $data->id;
             $movie->title = $data->title;
@@ -65,14 +63,14 @@ class MovieController
 
             if ($movie->updateMovie()) {
                 header('Content-Type: application/json', true, 200);
-                echo json_encode(["message" => "Usuario atualizado com sucesso"]);
+                echo json_encode(["message" => "Filme atualizado com sucesso"]);
             } else {
                 header('Content-Type: application/json', true, 500);
-                echo json_encode(["message" => "Falha ao atualizar usuário"]);
+                echo json_encode(["message" => "Falha ao atualizar o filme"]);
             }
         } else {
             header('Content-Type: application/json', true, 400);
-            echo json_encode(["message" => "Informação invalida"]);
+            echo json_encode(["message" => "Informação inválida"]);
         }
     }
 
@@ -88,11 +86,11 @@ class MovieController
 
             if ($movie->deleteMovie()) {
                 header('Content-Type: application/json', true, 200);
-                echo json_encode(["message" => "Usuario excluído com sucesso"]);
+                echo json_encode(["message" => "Filme excluído com sucesso"]);
             } else {
                 header('Content-Type: application/json', true, 500);
 
-                echo json_encode(["message" => "Falha ao excluir usuario"]);
+                echo json_encode(["message" => "Falha ao excluir filme"]);
             }
         } else {
             header('Content-Type: application/json', true, 400);
