@@ -26,5 +26,6 @@ switch ($method) {
     default:
         echo json_encode(["message" => "Metodo não permitido"]);
         break;
+        
 }
 ?>

@@ -5,5 +5,5 @@ define("DB_USER", "root");
 define("DB_PASSWORD", "");
 define("DB_NAME", "movie");
 define("DB_PORT", "3306");
-
+//
 ?>
